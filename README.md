@@ -76,3 +76,9 @@ A professional vector graphics editor for macOS, inspired by the classic FreeHan
 ## License
 
 Copyright (c) inkpen.io. All rights reserved.
+
+---
+
+**AgentiLoop:** [agentiloop.ai](https://agentiloop.ai/)
+
+Copyright © 2026 AgentiLoop.ai, a Logos InkPen LLC company. All rights reserved.
