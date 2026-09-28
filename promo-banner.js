@@ -15,12 +15,14 @@
     // Top menu = first real element in <body> when it is a <header> or <nav>.
     var nav = document.body.firstElementChild;
     while (nav && (/^(SCRIPT|NOSCRIPT|STYLE|TEMPLATE|LINK)$/.test(nav.tagName) || nav.classList.contains('skip-link'))) nav = nav.nextElementSibling;
-    if (nav && !/^(HEADER|NAV)$/.test(nav.tagName)) nav = null;
+    if (nav && !/^(HEADER|NAV)$/.test(nav.tagName) && !nav.classList.contains('countdown-banner')) nav = null;
     var promoHTML = "<aside class=\"promo\" id=\"promo\" aria-label=\"Announcements\"><div class=\"promo-stage\"><div class=\"promo-slide promo-mac is-active\" data-slide=\"0\"><span class=\"promo-icon\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" width=\"22\" height=\"22\"><path fill=\"currentColor\" d=\"M16.4 12.6c0-2.4 2-3.6 2.1-3.6-1.1-1.7-2.9-1.9-3.5-1.9-1.5-.2-2.9.9-3.7.9-.8 0-1.9-.9-3.2-.8-1.6 0-3.1 1-4 2.4-1.7 3-.4 7.4 1.2 9.8.8 1.2 1.8 2.5 3 2.4 1.2 0 1.7-.8 3.1-.8 1.5 0 1.9.8 3.2.8 1.3 0 2.1-1.2 2.9-2.4.9-1.4 1.3-2.7 1.3-2.8 0 0-2.4-1-2.4-4zM14 5.4c.7-.8 1.1-1.9 1-3-1 0-2.1.7-2.8 1.5-.6.7-1.2 1.8-1 2.9 1 .1 2.1-.6 2.8-1.4z\"/></svg></span><p class=\"promo-text\"><strong class=\"promo-grad\">Agent! for Mac</strong> now supports <strong>macOS 14.6</strong> or later on <span class=\"promo-chip chip-as\">Apple Silicon</span> and <span class=\"promo-chip chip-intel\">Intel</span></p><a class=\"promo-cta\" id=\"promo-mac-dl\" href=\"https://github.com/AgentiLoop/Agent/releases\" target=\"_blank\" rel=\"noopener\">Download here <span aria-hidden=\"true\">&rarr;</span></a></div><div class=\"promo-slide promo-cli\" data-slide=\"1\" aria-hidden=\"true\"><span class=\"promo-icon promo-prompt\" aria-hidden=\"true\">&gt;_</span><p class=\"promo-text\"><span class=\"promo-new\">New</span> from AgentiLoop: <strong class=\"promo-grad\">AgentiLoopCLI</strong> written in <a class=\"promo-lang lang-rust\" href=\"https://github.com/AgentiLoop/AgentiLoopCLI\" target=\"_blank\" rel=\"noopener\" tabindex=\"-1\">Rust</a> and <a class=\"promo-lang lang-go\" href=\"https://github.com/AgentiLoop/AgentiLoopGo\" target=\"_blank\" rel=\"noopener\" tabindex=\"-1\">Go</a><span class=\"promo-caret\" aria-hidden=\"true\"></span></p><a class=\"promo-cta\" href=\"https://github.com/AgentiLoop/AgentiLoopCLI\" target=\"_blank\" rel=\"noopener\" tabindex=\"-1\">Check it out here <span aria-hidden=\"true\">&rarr;</span></a></div><div class=\"promo-slide promo-fx\" data-slide=\"2\" aria-hidden=\"true\"><span class=\"promo-sponsored\">Sponsor</span><p class=\"promo-text\"><strong class=\"promo-grad\">Fluxion AI</strong>: one API for GPT, Claude &amp; every leading model. <span class=\"promo-save\">Save up to <b>70%</b></span> + <strong>$3 free credits</strong> with code <code>AIAGENT</code></p><a class=\"promo-cta\" href=\"https://fluxionai.world/register?source=github&amp;campaign=aiagent&amp;promo=AIAGENT\" target=\"_blank\" rel=\"sponsored noopener\" tabindex=\"-1\">Claim $3 credits <span aria-hidden=\"true\">&rarr;</span></a></div></div><div class=\"promo-dots\" role=\"tablist\" aria-label=\"Choose announcement\"><button type=\"button\" class=\"promo-dot is-active\" data-go=\"0\" aria-label=\"Agent! for Mac\"><span></span></button><button type=\"button\" class=\"promo-dot\" data-go=\"1\" aria-label=\"AgentiLoopCLI\"><span></span></button><button type=\"button\" class=\"promo-dot\" data-go=\"2\" aria-label=\"Sponsor: Fluxion AI\"><span></span></button></div></aside>";
     if (nav) nav.insertAdjacentHTML('afterend', promoHTML); else document.body.insertAdjacentHTML('afterbegin', promoHTML);
     var promo = document.getElementById('promo');
     var fixed = me && me.hasAttribute('data-fixed');
     if (fixed) promo.classList.add('promo-fixed');
+    var sticky = !fixed && nav && getComputedStyle(nav).position === 'sticky';
+    if (sticky) { promo.style.position = 'sticky'; promo.style.zIndex = '999'; } // stays under the sticky menu, keeping its own space in the flow
 
     // Mac CTA: newest release overall (pre-release included) with a DMG
     fetch('https://api.github.com/repos/AgentiLoop/Agent/releases').then(function (r) { return r.ok ? r.json() : []; }).then(function (all) {
@@ -38,7 +40,8 @@
     var ms = 7000, cur = 0, timer = null, left = ms, started = 0;
     function syncHeight() {
         document.documentElement.style.setProperty('--promo-h', promo.offsetHeight + 'px');
-        if (fixed && nav) { nav.style.top = '0px'; promo.style.top = nav.offsetHeight + 'px'; } // banner sits under the fixed nav
+        if (fixed && nav) { nav.style.top = '0px'; promo.style.top = nav.offsetHeight + 'px'; }
+        if (sticky) promo.style.top = nav.offsetHeight + 'px'; // banner sits under the fixed nav
     }
     syncHeight();
     if (window.ResizeObserver) { var ro = new ResizeObserver(syncHeight); ro.observe(promo); if (nav) ro.observe(nav); } else window.addEventListener('resize', syncHeight);
