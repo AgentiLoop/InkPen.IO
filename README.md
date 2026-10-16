@@ -1,5 +1,8 @@
 # inkpen.io
 
+🤖 **Built by the makers of [Agent!](https://github.com/AgentiLoop/Agent)**, an autonomous macOS agent.
+
+
 A professional vector graphics editor for macOS, inspired by the classic FreeHand workflow. Built with SwiftUI and designed for precision illustration work.
 
 ## Features
