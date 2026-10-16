@@ -19,26 +19,88 @@
     <meta property="twitter:description" content="Vector design app for macOS 14 through 26. Inspired by Adobe Illustrator CS, CorelDraw, CricketDraw, Alias Sketch, Inkscape. MVP is available now! Supports InkPen JSON, PDF, SVG, PNG. VC Investors wanted.">
     <meta property="twitter:image" content="InkPen MVP Beta Available For Download Now.png">
 
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Monoton&family=Press+Start+2P&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <script>document.write('<script src="version.js?v='+Date.now()+'"><\/script>');</script>
     <style>
+        /* ============ RETRO COLORRIFIC THEME ============ */
+        :root {
+            --night: #12002b;
+            --night-2: #240046;
+            --pink: #ff2e97;
+            --hot: #ff6b35;
+            --sun: #ffd319;
+            --lime: #3dff8f;
+            --cyan: #00e5ff;
+            --violet: #9d4bff;
+            --cream: #fff4e0;
+            --rainbow: linear-gradient(90deg, #61bb46 0 16.66%, #fdb827 16.66% 33.33%, #f5821f 33.33% 50%, #e03a3e 50% 66.66%, #963d97 66.66% 83.33%, #009ddc 83.33% 100%);
+            --neon: linear-gradient(90deg, var(--sun), var(--hot), var(--pink), var(--violet), var(--cyan), var(--lime), var(--sun));
+        }
+
         * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
 
         html {
-            background-color: #000;
+            background-color: var(--night);
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background-color: #ffffff;
-            color: #000000;
+            font-family: 'Space Mono', ui-monospace, Menlo, monospace;
+            background:
+                radial-gradient(ellipse at 50% 0%, rgba(157, 75, 255, 0.35), transparent 60%),
+                linear-gradient(180deg, var(--night) 0%, var(--night-2) 55%, #3c0753 100%);
+            background-attachment: fixed;
+            color: var(--cream);
             line-height: 1.6;
-            font-weight: 300;
+            font-weight: 400;
             margin-bottom: -10px;
+            overflow-x: hidden;
+            position: relative;
+            isolation: isolate;
         }
+
+        /* starfield */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            pointer-events: none;
+            background-image:
+                radial-gradient(1.5px 1.5px at 20px 30px, #fff, transparent),
+                radial-gradient(1px 1px at 120px 80px, var(--cyan), transparent),
+                radial-gradient(1.5px 1.5px at 200px 160px, var(--pink), transparent),
+                radial-gradient(1px 1px at 300px 40px, #fff, transparent),
+                radial-gradient(1px 1px at 360px 220px, var(--sun), transparent);
+            background-size: 400px 260px;
+            animation: twinkle 6s ease-in-out infinite alternate;
+        }
+
+        /* CRT scanlines on the background only (kept behind content so images stay clean) */
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.12) 0 1px, transparent 1px 3px);
+            mix-blend-mode: multiply;
+        }
+
+        @keyframes twinkle { from { opacity: 0.45; } to { opacity: 1; } }
+        @keyframes hue { to { background-position: 200% 50%; } }
+        @keyframes float { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-8px) rotate(2deg); } }
+        @keyframes marquee { to { transform: translateX(-50%); } }
+        @keyframes gridmove {
+            from { transform: perspective(500px) rotateX(62deg) translateY(0); }
+            to { transform: perspective(500px) rotateX(62deg) translateY(60px); }
+        }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        a { color: var(--cyan); }
 
         .container {
             max-width: 1400px;
@@ -47,6 +109,7 @@
             overflow-x: hidden;
         }
 
+        /* ---------- HERO ---------- */
         .hero {
             min-height: 40vh;
             display: flex;
@@ -54,7 +117,49 @@
             justify-content: center;
             text-align: center;
             position: relative;
-            padding: 25px 0 0.5rem 0;
+            padding: 40px 0 0.5rem 0;
+            overflow: hidden;
+            isolation: isolate;
+        }
+
+        /* synthwave sun */
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 30px;
+            left: 50%;
+            width: min(70vw, 620px);
+            aspect-ratio: 1;
+            transform: translateX(-50%);
+            border-radius: 50%;
+            z-index: -1;
+            background:
+                repeating-linear-gradient(180deg, transparent 0 52%, var(--night-2) 52% 55%, transparent 55% 60%, var(--night-2) 60% 64%, transparent 64% 69%, var(--night-2) 69% 74%, transparent 74% 80%, var(--night-2) 80% 87%, transparent 87%),
+                linear-gradient(180deg, var(--sun) 0%, var(--hot) 45%, var(--pink) 75%, var(--violet) 100%);
+            filter: drop-shadow(0 0 60px rgba(255, 46, 151, 0.6));
+            opacity: 0.9;
+        }
+
+        /* perspective neon grid */
+        .hero::after {
+            content: "";
+            position: absolute;
+            left: -50%;
+            right: -50%;
+            bottom: 0;
+            height: 55%;
+            z-index: -1;
+            background-image:
+                linear-gradient(rgba(255, 46, 151, 0.7) 2px, transparent 2px),
+                linear-gradient(90deg, rgba(0, 229, 255, 0.55) 2px, transparent 2px);
+            background-size: 100% 60px, 60px 100%;
+            transform: perspective(500px) rotateX(62deg);
+            transform-origin: bottom;
+            mask-image: linear-gradient(to top, #000 10%, transparent 90%);
+            -webkit-mask-image: linear-gradient(to top, #000 10%, transparent 90%);
+            will-change: transform;
+            backface-visibility: hidden;
+            animation: gridmove 2.5s linear infinite;
         }
 
         .hero > .container {
@@ -67,56 +172,160 @@
         }
 
         .test-drive-inkpen {
-            font-size: 0.8rem;
-            font-weight: 400;
+            display: inline-block;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 0.7rem;
             text-transform: uppercase;
-            letter-spacing: 0.08em;
-            margin-bottom: 0.5rem;
-            color: #666;
+            letter-spacing: 0.15em;
+            margin-bottom: 1rem;
+            padding: 8px 14px;
+            color: var(--night);
+            background: var(--sun);
+            box-shadow: 4px 4px 0 var(--pink), 8px 8px 0 var(--cyan);
+            transform: rotate(-2deg);
         }
 
         .main-title {
-            font-size: 3rem;
-            font-weight: 200;
+            font-family: 'Monoton', 'Orbitron', cursive;
+            font-size: clamp(2.6rem, 7vw, 6rem);
+            font-weight: 400;
             line-height: 1.1;
             margin-bottom: 0.5rem;
-            letter-spacing: -0.02em;
+            letter-spacing: 0.02em;
+            background: var(--neon);
+            background-size: 200% 100%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: hue 6s linear infinite;
+            /* dark outline + halo first so the neon stays readable over the sun */
+            filter:
+                drop-shadow(1px 0 0 var(--night)) drop-shadow(-1px 0 0 var(--night))
+                drop-shadow(0 1px 0 var(--night)) drop-shadow(0 -1px 0 var(--night))
+                drop-shadow(0 0 4px var(--night))
+                drop-shadow(0 0 12px rgba(255, 46, 151, 0.65)) drop-shadow(3px 3px 0 rgba(0, 229, 255, 0.5));
         }
 
         .subtitle {
-            font-size: 1rem;
-            font-weight: 300;
-            color: #666;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.25em;
+            color: var(--cyan);
+            text-shadow: 0 0 4px var(--night), 2px 2px 0 var(--pink), 3px 3px 0 var(--night), 0 0 10px var(--cyan);
             margin-bottom: 1rem;
-            max-width: 600px;
+            max-width: 700px;
             margin-left: auto;
             margin-right: auto;
         }
 
-        .app-image {
-            max-width: 100%;
-            height: auto;
-            margin: 1rem 0;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+        .subtitle::after {
+            content: "_";
+            color: var(--sun);
+            animation: blink 1s steps(1) infinite;
         }
 
-        /* Carousel Styles */
+        /* ---------- MARQUEE ---------- */
+        .marquee {
+            overflow: hidden;
+            white-space: nowrap;
+            background: var(--sun);
+            color: var(--night);
+            border-top: 4px solid var(--night);
+            border-bottom: 4px solid var(--night);
+            box-shadow: 0 0 0 3px var(--pink), 0 0 30px rgba(255, 211, 25, 0.5);
+            margin: 1.5rem -40px;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 0.75rem;
+            padding: 10px 0;
+        }
+
+        .marquee-track {
+            display: inline-block;
+            animation: marquee 22s linear infinite;
+        }
+
+        .marquee-track span {
+            padding: 0 1.2rem;
+        }
+
+        .marquee-track span:nth-child(3n+1) { color: var(--pink); }
+        .marquee-track span:nth-child(3n+2) { color: var(--violet); }
+
+        /* ---------- CAROUSEL as retro window ---------- */
         .carousel-container {
             position: relative;
-            max-width: none;
-            width: 100%;
-            margin: 1rem auto;
+            max-width: 1040px;
+            width: 80%;
+            margin: 1.5rem auto 1rem;
             overflow: visible;
-            border-radius: 20px;
+            border: 4px solid var(--night);
+            border-radius: 14px;
+            background: var(--cream);
+            box-shadow: 10px 10px 0 var(--pink), 20px 20px 0 var(--cyan), 0 0 80px rgba(157, 75, 255, 0.6);
+        }
+
+        .window-bar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: var(--cream);
+            border-bottom: 4px solid var(--night);
+            border-radius: 10px 10px 0 0;
+            position: relative;
+        }
+
+        .window-bar .stripes {
+            flex: 1;
+            height: 14px;
+            background: repeating-linear-gradient(180deg, var(--night) 0 2px, transparent 2px 4px);
+            opacity: 0.8;
+        }
+
+        /* System 7 close / zoom boxes */
+        .window-bar .box {
+            width: 14px;
+            height: 14px;
+            border: 2px solid var(--night);
+            background: var(--cream);
+            box-shadow: 0 0 0 3px var(--cream);
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .window-bar .box.zoom::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 6px;
+            height: 6px;
+            border-right: 2px solid var(--night);
+            border-bottom: 2px solid var(--night);
+        }
+
+        .window-title {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 0.6rem;
+            color: var(--night);
+            padding: 0 10px;
+            white-space: nowrap;
+        }
+
+        .window-stripe {
+            height: 8px;
+            background: var(--rainbow);
         }
 
         .carousel-wrapper {
             position: relative;
             width: 100%;
             aspect-ratio: 2560 / 2120;
-            border-radius: 20px;
+            border-radius: 0 0 10px 10px;
             overflow: hidden;
+            background: #fff;
         }
 
         .carousel-slide {
@@ -156,9 +365,9 @@
         }
 
         .carousel-button {
-            background: rgba(0, 0, 0, 0.7);
+            background: var(--pink);
             color: #fff;
-            border: none;
+            border: 3px solid var(--night);
             border-radius: 50%;
             width: 50px;
             height: 50px;
@@ -172,71 +381,129 @@
         }
 
         .carousel-button:hover {
-            background: rgba(0, 0, 0, 0.9);
+            background: var(--violet);
         }
 
         .carousel-dots {
             display: flex;
             justify-content: center;
-            gap: 10px;
-            margin-top: 20px;
-            padding-bottom: 5px;
+            gap: 12px;
+            margin: 0;
+            padding: 14px 0;
+            background: var(--night);
+            border-radius: 0 0 10px 10px;
         }
 
         .carousel-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: #ccc;
+            width: 16px;
+            height: 16px;
+            border-radius: 3px;
+            background: transparent;
+            border: 2px solid currentColor;
             cursor: pointer;
-            transition: background 0.3s ease;
+            transition: transform 0.2s ease, background 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .carousel-dot:nth-child(7n+1) { color: #61bb46; }
+        .carousel-dot:nth-child(7n+2) { color: #fdb827; }
+        .carousel-dot:nth-child(7n+3) { color: #f5821f; }
+        .carousel-dot:nth-child(7n+4) { color: #e03a3e; }
+        .carousel-dot:nth-child(7n+5) { color: #963d97; }
+        .carousel-dot:nth-child(7n+6) { color: #009ddc; }
+        .carousel-dot:nth-child(7n+7) { color: var(--pink); }
+
+        .carousel-dot:hover {
+            transform: scale(1.25) rotate(45deg);
         }
 
         .carousel-dot.active {
-            background: #000;
+            background: currentColor;
+            box-shadow: 0 0 12px currentColor;
+            transform: rotate(45deg);
+        }
+
+        /* ---------- COPY ---------- */
+        .copy-panel {
+            max-width: 780px;
+            margin: 3rem auto 1.5rem;
+            padding: 1.5rem 1.75rem 0.75rem;
+            background: rgba(18, 0, 43, 0.75);
+            border: 3px dashed var(--sun);
+            border-radius: 18px;
+            position: relative;
+            text-align: left;
+        }
+
+        .copy-panel::before {
+            content: "★ README.TXT ★";
+            position: absolute;
+            top: -14px;
+            left: 24px;
+            background: var(--pink);
+            color: #fff;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 0.6rem;
+            padding: 6px 10px;
+            border: 2px solid var(--night);
         }
 
         .description {
-            font-size: 0.9rem;
-            line-height: 1.5;
-            color: #333;
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: var(--cream);
             max-width: 700px;
             margin: 0 auto 1rem;
-            font-weight: 300;
+            font-weight: 400;
+        }
+
+        .description a {
+            color: var(--sun) !important;
+            text-decoration-color: var(--pink) !important;
+            text-decoration-thickness: 2px !important;
         }
 
         .cta-section {
-            margin-bottom: 25px;
+            margin: 1.5rem 0 40px;
             padding-top: 7.5px;
         }
 
         .cta-button {
             display: inline-block;
-            background: #000;
-            color: #fff;
-            padding: 0.8rem 1.5rem;
+            font-family: 'Press Start 2P', monospace;
+            color: var(--night);
+            padding: 1rem 1.5rem;
             text-decoration: none;
             font-weight: 400;
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
-            transition: all 0.3s ease;
-            border: 1px solid #000;
-            border-radius: 60px;
-            margin: 0.5rem;
-            min-width: 200px;
+            letter-spacing: 0.05em;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+            border: 3px solid var(--night);
+            border-radius: 10px;
+            margin: 0.75rem;
+            min-width: 220px;
             text-align: center;
+            background: var(--sun);
+            box-shadow: 6px 6px 0 var(--night), 6px 6px 0 3px var(--pink);
         }
 
+        .cta-button:nth-child(2) { background: var(--cyan); box-shadow: 6px 6px 0 var(--night), 6px 6px 0 3px var(--sun); }
+        .cta-button:nth-child(3) { background: var(--pink); color: #fff; box-shadow: 6px 6px 0 var(--night), 6px 6px 0 3px var(--lime); }
+
         .cta-button:hover {
-            background: #fff;
-            color: #000;
+            transform: translate(-3px, -3px) rotate(-1.5deg);
+            box-shadow: 10px 10px 0 var(--night), 10px 10px 0 3px var(--violet);
+        }
+
+        .cta-button:active {
+            transform: translate(4px, 4px);
+            box-shadow: 0 0 0 var(--night);
         }
 
         .footer {
             padding: 4rem 0;
             text-align: center;
-            border-top: 2px solid #000;
+            border-top: 2px solid var(--pink);
         }
 
         .footer-logo {
@@ -264,34 +531,52 @@
         }
 
         .footer-tagline a:hover {
-            color: #ccc;
+            color: var(--sun);
         }
 
+        /* ---------- RELEASES ---------- */
         .release-section {
-            background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%);
-            padding: 10px 0 2rem 0;
+            background: transparent;
+            padding: 10px 0 3rem 0;
             position: relative;
         }
 
         .release-table {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
+            background: var(--cream);
+            border: 4px solid var(--night);
+            border-radius: 14px;
             overflow: hidden;
             margin: 0 auto;
             max-width: 900px;
+            box-shadow: 10px 10px 0 var(--violet), 0 0 50px rgba(0, 229, 255, 0.25);
+        }
+
+        .release-table + .release-table {
+            box-shadow: 10px 10px 0 var(--hot), 0 0 50px rgba(255, 46, 151, 0.25);
         }
 
         .release-table h3 {
-            font-size: 1.2rem;
-            font-weight: 300;
-            letter-spacing: 0.05em;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 0.9rem;
+            font-weight: 400;
+            letter-spacing: 0.08em;
             text-transform: uppercase;
-            color: #333;
-            padding: 2rem;
+            padding: 1.5rem 2rem calc(1.5rem + 8px);
             margin: 0;
-            background: #000;
-            color: #fff;
+            background: var(--night) linear-gradient(0deg, transparent 8px, transparent 8px);
+            color: var(--sun);
+            text-shadow: 3px 3px 0 var(--pink);
+            position: relative;
+        }
+
+        .release-table h3::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 8px;
+            background: var(--rainbow);
         }
 
         .release-table table {
@@ -301,23 +586,24 @@
         }
 
         .release-table th {
-            padding: 0.5rem;
+            padding: 0.6rem 0.75rem;
             text-align: left;
-            font-weight: 500;
+            font-family: 'Press Start 2P', monospace;
+            font-weight: 400;
             text-transform: uppercase;
-            font-size: 0.75rem;
+            font-size: 0.55rem;
             letter-spacing: 0.05em;
-            color: #666;
-            background: #f9f9f9;
-            border-bottom: 1px solid #e0e0e0;
+            color: #fff;
+            background: var(--violet);
+            border-bottom: 3px solid var(--night);
         }
 
         .release-table td {
-            padding: 0.5rem;
+            padding: 0.6rem 0.75rem;
             font-size: 0.85rem;
-            color: #000;
-            border-bottom: 1px solid #f0f0f0;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            color: var(--night);
+            border-bottom: 2px dashed rgba(36, 0, 70, 0.15);
+            font-family: 'Space Mono', ui-monospace, Menlo, monospace;
             white-space: nowrap;
             width: auto;
         }
@@ -327,13 +613,44 @@
             max-width: 0;
         }
 
+        .release-table tr:nth-child(even) td {
+            background: rgba(0, 229, 255, 0.08);
+        }
+
         .release-table tr:hover td {
-            background: rgba(0, 0, 0, 0.02);
+            background: rgba(255, 211, 25, 0.35);
+        }
+
+        /* release notes rendered by script.js use inline colors — recolor them */
+        #whats-new-content,
+        #whats-new-content ul,
+        #whats-new-content li {
+            color: var(--night) !important;
+            font-family: 'Space Mono', ui-monospace, Menlo, monospace !important;
+        }
+
+        #whats-new-content h4 {
+            color: var(--pink) !important;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 0.65rem !important;
+            font-weight: 400 !important;
+            margin-top: 1.5rem !important;
+        }
+
+        #whats-new-content li > span:first-child {
+            color: var(--violet) !important;
+        }
+
+        #whats-new-content code {
+            background: var(--night);
+            color: var(--lime);
+            padding: 1px 5px;
+            border-radius: 4px;
         }
 
         .hash-cell {
             font-size: 0.9rem;
-            color: #000;
+            color: var(--night);
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -353,28 +670,32 @@
 
         .version-badge {
             display: inline-block;
-            background: #000;
+            background: var(--pink);
             color: #fff;
-            padding: 0.25rem 0.5rem;
-            border-radius: 20px;
+            padding: 0.2rem 0.6rem;
+            border-radius: 6px;
             font-size: 0.8rem;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            border: 1px solid #000;
+            font-weight: 700;
+            transition: all 0.15s ease;
+            border: 2px solid var(--night);
+            box-shadow: 3px 3px 0 var(--night);
             text-align: center;
         }
 
+        .release-table tr:nth-child(3n+2) .version-badge { background: var(--cyan); color: var(--night); }
+        .release-table tr:nth-child(3n+3) .version-badge { background: var(--sun); color: var(--night); }
+
         .version-badge:hover {
-            background: #fff;
-            color: #000;
+            transform: translate(-2px, -2px);
+            box-shadow: 5px 5px 0 var(--night);
         }
 
         .copy-button {
             padding: 4px 12px;
-            background: #000;
+            background: var(--night);
             color: #fff;
-            border: 1px solid #000;
-            border-radius: 20px;
+            border: 2px solid var(--night);
+            border-radius: 6px;
             cursor: pointer;
             font-size: 1rem;
             flex-shrink: 0;
@@ -387,8 +708,7 @@
         }
 
         .copy-button:hover {
-            background: #fff;
-            color: #000;
+            background: var(--pink);
         }
 
         @media (max-width: 768px) {
@@ -397,36 +717,48 @@
             }
 
             .main-title {
-                font-size: 3rem;
                 margin-bottom: 0;
             }
 
             .subtitle {
-                font-size: 1.2rem;
+                font-size: 0.85rem;
+                letter-spacing: 0.15em;
                 margin-bottom: 0.25rem;
             }
 
             .description {
-                font-size: 1rem;
+                font-size: 0.9rem;
                 margin-bottom: 1.2rem;
             }
 
+            .marquee {
+                margin: 1rem -20px;
+                font-size: 0.6rem;
+            }
+
             .carousel-container {
-                margin: 7.5px 0 !important;
-                border-radius: 20px;
-                padding: 5px 0 8.75px 0;
+                margin: 15px auto 25px !important;
+                box-shadow: 6px 6px 0 var(--pink), 12px 12px 0 var(--cyan);
+            }
+
+            .window-title {
+                display: none;
             }
 
             .carousel-wrapper {
-                height: 350px;
+                height: auto;
             }
 
             .carousel-dots {
                 display: none;
             }
 
+            .carousel-wrapper {
+                border-radius: 0 0 10px 10px;
+            }
+
             .hero {
-                padding: 0;
+                padding: 20px 0 0;
                 min-height: auto;
             }
 
@@ -435,53 +767,50 @@
             }
 
             .test-drive-inkpen {
-                margin-bottom: 0;
-                padding-top: 0.85rem;
+                padding-top: 8px;
+            }
+
+            .cta-button {
+                min-width: 240px;
+            }
+
+            .copy-panel {
+                padding: 1.5rem 1.1rem 0.5rem;
             }
         }
 
-        @media (min-width: 571px) and (max-width: 768px) {
-            .carousel-container {
-                margin: 15px 0 !important;
-                padding: 20px 0 23.75px 0 !important;
-            }
-        }
-
-        @media (max-width: 570px) {
-            .carousel-container {
-                margin: 5px 0 11px 0 !important;
-                padding: 0 0 3.75px 0 !important;
-            }
-        }
-
-        /* Creator Section Styles */
+        /* ---------- CREATOR ---------- */
         .creator-section {
-            background-color: #fff;
-            color: #000;
-            padding: 30px 0 0 0;
+            background: transparent;
+            color: var(--cream);
+            padding: 10px 0 0 0;
             width: 100%;
             text-align: center;
-            border-top: 1px solid #000;
         }
 
         .creator-title {
-            font-size: 1.1rem;
-            font-weight: 300;
-            margin-bottom: 0.125rem;
-            color: #000;
+            font-family: 'Monoton', cursive;
+            font-size: clamp(1.4rem, 4vw, 2.4rem);
+            font-weight: 400;
+            margin-bottom: 0;
+            padding: 30px 0;
+            color: var(--pink);
             text-transform: uppercase;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.08em;
+            text-shadow: 0 0 6px var(--pink), 0 0 18px var(--violet);
         }
 
         .creator-image-container {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
+            background: var(--cream);
+            border: 4px solid var(--night);
+            border-radius: 6px;
             overflow: hidden;
-            margin: calc(0.125rem + 7.5px) auto calc(1rem + 10px);
+            margin: 1.25rem auto 2rem;
             max-width: 300px;
             height: 470px;
             padding: 0;
+            box-shadow: 8px 8px 0 var(--sun), 16px 16px 0 var(--pink), 0 0 60px rgba(0, 229, 255, 0.45);
+            animation: float 6s ease-in-out infinite;
         }
 
         .creator-image {
@@ -493,22 +822,54 @@
         }
 
         .creator-location {
-            font-size: 0.825rem;
-            color: #333;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 0.65rem;
+            color: var(--cyan);
             font-weight: 400;
             text-transform: uppercase;
             letter-spacing: 0.1em;
-            margin-top: -7.5px;
+            margin-top: 0;
             padding-bottom: 30px;
         }
 
         .creator-location a {
-            color: #333;
+            color: var(--cyan);
             text-decoration: none;
+            text-shadow: 0 0 8px var(--cyan);
         }
 
         .creator-location a:hover {
-            text-decoration: underline;
+            color: var(--sun);
+            text-shadow: 0 0 8px var(--sun);
+        }
+
+        /* ---------- shared banner/footer (injected by banner.js / footer.js) ---------- */
+        body .countdown-banner {
+            background: var(--night);
+            border-bottom: 4px solid transparent;
+            border-image: var(--rainbow) 1;
+        }
+
+        body .countdown-banner a:hover {
+            color: var(--sun) !important;
+        }
+
+        body footer {
+            background: var(--night);
+            border-top: 6px solid transparent;
+            border-image: var(--rainbow) 1;
+            border-radius: 0;
+            font-family: 'Press Start 2P', monospace;
+        }
+
+        body footer .footer-content {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 0.7rem;
+        }
+
+        body footer .footer-content a:hover {
+            color: var(--pink) !important;
+            text-decoration: none;
         }
 
         /* Progressive image loading - fade in when loaded */
@@ -525,6 +886,12 @@
             opacity: 1;
         }
 
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation: none !important;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -538,7 +905,20 @@
                 <h1 class="main-title" id="main-title">Logos InkPen 1.0.2</h1>
                 <p class="subtitle">Professional Vector Design for Mac</p>
 
+                <div class="marquee" aria-hidden="true">
+                    <div class="marquee-track">
+                        <span>★ SVG</span><span>★ PDF</span><span>★ PNG</span><span>★ INKPEN JSON</span><span>★ METAL</span><span>★ SWIFTUI</span><span>★ COREGRAPHICS</span><span>★ APPLE PENCIL</span><span>★ MADE ON A MAC</span>
+                        <span>★ SVG</span><span>★ PDF</span><span>★ PNG</span><span>★ INKPEN JSON</span><span>★ METAL</span><span>★ SWIFTUI</span><span>★ COREGRAPHICS</span><span>★ APPLE PENCIL</span><span>★ MADE ON A MAC</span>
+                    </div>
+                </div>
+
                 <div class="carousel-container">
+                    <div class="window-bar" aria-hidden="true">
+                        <span class="box close"></span><span class="stripes"></span>
+                        <span class="window-title">INKPEN.APP — UNTITLED.SVG</span>
+                        <span class="stripes"></span><span class="box zoom"></span>
+                    </div>
+                    <div class="window-stripe" aria-hidden="true"></div>
                     <div class="carousel-wrapper" id="carouselWrapper">
                         <div class="carousel-slide active">
                             <img data-cache-bust="slideshow/01-apple.webp" alt="Apple rainbow logo SVG opened in Logos InkPen" fetchpriority="high">
@@ -558,6 +938,9 @@
                         <div class="carousel-slide">
                             <img data-cache-bust="slideshow/06-atari-rainbow.webp" alt="Atari rainbow logo SVG opened in Logos InkPen" loading="lazy">
                         </div>
+                        <div class="carousel-slide">
+                            <img data-cache-bust="slideshow/07-firefox.webp" alt="Firefox logo SVG opened in Logos InkPen" loading="lazy">
+                        </div>
                     </div>
                     <div class="carousel-dots">
                         <span class="carousel-dot active" onclick="goToSlide(0)"></span>
@@ -566,9 +949,11 @@
                         <span class="carousel-dot" onclick="goToSlide(3)"></span>
                         <span class="carousel-dot" onclick="goToSlide(4)"></span>
                         <span class="carousel-dot" onclick="goToSlide(5)"></span>
+                        <span class="carousel-dot" onclick="goToSlide(6)"></span>
                     </div>
                 </div>
 
+                <div class="copy-panel">
                 <p class="description">
                     Open SVG, PDF and InkPen JSON files and edit them as live vector paths, with gradients, compound shapes and layers preserved. <a href="https://github.com/macos26/logos/releases" id="desc-download-link" style="color: inherit; text-decoration: underline;">Available for download</a>.
                 </p>
@@ -580,6 +965,7 @@
                 <p class="description">
                     Built from the ground up on SwiftUI, Metal &amp; CoreGraphics for macOS 14, 15 &amp; 26. Engineered for blazing-fast rendering with GPU-accelerated paths, real-time previews, and instant zoom at any scale. Logos InkPen is designed to be the fastest vector art &amp; design app on the planet.
                 </p>
+                </div>
 
                 <div class="cta-section">
                     <a href="https://github.com/macos26/logos/releases" id="download-btn" class="cta-button">Download InkPen</a>
