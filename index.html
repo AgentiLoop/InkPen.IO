@@ -95,8 +95,8 @@
         @keyframes float { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-8px) rotate(2deg); } }
         @keyframes marquee { to { transform: translateX(-50%); } }
         @keyframes gridmove {
-            from { transform: perspective(500px) rotateX(62deg) translateY(0); }
-            to { transform: perspective(500px) rotateX(62deg) translateY(60px); }
+            from { background-position: 0 0, 0 0; }
+            to { background-position: 0 60px, 0 0; }
         }
         @keyframes blink { 50% { opacity: 0; } }
 
@@ -150,7 +150,7 @@
             height: 55%;
             z-index: -1;
             background-image:
-                linear-gradient(rgba(255, 46, 151, 0.7) 2px, transparent 2px),
+                linear-gradient(transparent 0, rgba(255, 46, 151, 0.7) 1px, rgba(255, 46, 151, 0.7) 3px, transparent 4px),
                 linear-gradient(90deg, rgba(0, 229, 255, 0.55) 2px, transparent 2px);
             background-size: 100% 60px, 60px 100%;
             transform: perspective(500px) rotateX(62deg);
