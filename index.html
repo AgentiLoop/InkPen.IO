@@ -95,8 +95,8 @@
         @keyframes float { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-8px) rotate(2deg); } }
         @keyframes marquee { to { transform: translateX(-50%); } }
         @keyframes gridmove {
-            from { background-position: 0 0, 0 0; }
-            to { background-position: 0 60px, 0 0; }
+            from { background-position: 0 100%, 0 0, 0 0; }
+            to { background-position: 0 100%, 0 60px, 0 0; }
         }
         @keyframes blink { 50% { opacity: 0; } }
 
@@ -150,13 +150,16 @@
             height: 55%;
             z-index: -1;
             background-image:
-                linear-gradient(transparent 0, rgba(255, 46, 151, 0.7) 1px, rgba(255, 46, 151, 0.7) 3px, transparent 4px),
-                linear-gradient(90deg, rgba(0, 229, 255, 0.55) 2px, transparent 2px);
-            background-size: 100% 60px, 60px 100%;
+                linear-gradient(transparent 0, rgba(255, 46, 151, 0.22) 1px, rgba(255, 46, 151, 0.5) 3px, rgba(255, 46, 151, 0.5) 5px, rgba(255, 46, 151, 0.22) 7px, transparent 8px),
+                linear-gradient(transparent 0, rgba(255, 46, 151, 0.22) 1px, rgba(255, 46, 151, 0.5) 3px, rgba(255, 46, 151, 0.5) 5px, rgba(255, 46, 151, 0.22) 7px, transparent 8px),
+                linear-gradient(90deg, transparent 0, rgba(0, 229, 255, 0.22) 1px, rgba(0, 229, 255, 0.5) 3px, rgba(0, 229, 255, 0.5) 5px, rgba(0, 229, 255, 0.22) 7px, transparent 8px);
+            background-size: 100% 8px, 100% 60px, 60px 100%;
+            background-repeat: no-repeat, repeat, repeat;
+            background-position: 0 100%, 0 0, 0 0;
             transform: perspective(500px) rotateX(62deg);
             transform-origin: bottom;
-            mask-image: linear-gradient(to top, #000 10%, transparent 90%);
-            -webkit-mask-image: linear-gradient(to top, #000 10%, transparent 90%);
+            mask-image: linear-gradient(to top, #000 15%, transparent 65%);
+            -webkit-mask-image: linear-gradient(to top, #000 15%, transparent 65%);
             will-change: transform;
             backface-visibility: hidden;
             animation: gridmove 2.5s linear infinite;
