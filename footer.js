@@ -68,6 +68,13 @@
     footer .footer-content a:hover {
         text-decoration: underline;
     }
+    footer .agentiloop-backlink {
+        margin: 24px 0 0 !important;
+        color: #fff;
+    }
+    footer .agentiloop-backlink a {
+        color: #fff;
+    }
     .year-tooltip {
         position: relative;
         cursor: pointer;
@@ -120,4 +127,16 @@
 
     // Insert HTML at end of body
     document.body.insertAdjacentHTML('beforeend', footerHTML);
+
+    // Move the "Built by AgentiLoop" backlink into the dark footer
+    function moveBacklink() {
+        const backlink = document.querySelector('.agentiloop-backlink');
+        const container = document.querySelector('footer .container');
+        if (backlink && container) container.appendChild(backlink);
+    }
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', moveBacklink);
+    } else {
+        moveBacklink();
+    }
 })();
