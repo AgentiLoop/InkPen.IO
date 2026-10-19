@@ -82,7 +82,9 @@ async function autoDiscoverReleases() {
                 var asset = release.assets[a];
                 if (!asset.name.endsWith('.dmg')) continue;
                 var version = extractVersion(asset.name);
-                var date = formatDate(new Date(release.published_at || release.created_at));
+                var d = new Date(release.published_at || release.created_at);
+                var date = '<span class="date-long">' + formatDate(d) + '</span>'
+                    + '<span class="date-short">' + (d.getMonth() + 1) + '.' + d.getDate() + '.' + String(d.getFullYear()).slice(-2) + '</span>';
                 var size = formatFileSize(asset.size);
                 var url = asset.browser_download_url;
 

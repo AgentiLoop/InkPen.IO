@@ -714,7 +714,12 @@
             background: var(--pink);
         }
 
+        .date-short { display: none; }
+
         @media (max-width: 768px) {
+            .date-long { display: none; }
+            .date-short { display: inline; }
+
             .container {
                 padding: 0 20px;
             }
